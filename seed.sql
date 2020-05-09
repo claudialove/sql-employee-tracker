@@ -3,42 +3,22 @@ CREATE DATABASE employee_tracker_db;
 
 USE employee_tracker_db;
 
-CREATE TABLE department(
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  department_name VARCHAR(30)
-);
-
-
-CREATE TABLE role(
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  title VARCHAR(30),
-  salary DECIMAL,
-  department_id INT
-);
-
-
 CREATE TABLE employee(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  fname VARCHAR(30),
-  lname VARCHAR(30),
-  role_id INT,
-  manager_id INT
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  title VARCHAR(30),
+  department VARCHAR(30),
+  salary DECIMAL,
+  manager VARCHAR(30)
 );
 
-insert into department (department_name)
-values 
-("engineering"),
-("sales"),
-("human resources");
 
-insert into role (title, salary, department_id)
+insert into employee(first_name, last_name, title, department, salary, manager)
 values 
-("developer", "150000.00", "1"),
-("intern", "75000.00", "1"),
-("tech lead", "200000.00", "1"),
-("sales engineer", "150000.00", "2"),
-("sales intern", "75000.00", "2"),
-("sales lead", "250000.00", "2"),
-("hr specialist ", "150000.00", "3"),
-("hr generalist", "100000.00", "3"),
-("hr manager", "200000.00", "3");
+("Edward", "Allen",  "Salesperson", "Sales", 80000.00, "Jennifer Joker"),
+("Ashley", "Rivers",  "Developer", "Engineering", 150000.00, "Terrance Tyranny"),
+("Carson", "Ellison",  "Accountant", "Finance", 120000.00, "Diane Fullofherself");
+
+select * from employee;
+
