@@ -1,18 +1,14 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
-var console = require("console");
-var sqlformatter = require("sql-formatter");
+const mysql = require("mysql");
+const inquirer = require("inquirer");
+const console = require('console');
 
 // create the connection information for the sql database
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
   host: "localhost",
-
   // Your port; if not 3306
   port: 3306,
-
   // Your username
   user: "root",
-
   // Your password
   password: "9Gjmrawt!",
   database: "employee_tracker_db"
@@ -53,18 +49,18 @@ console.log("===========================");
       });
   }
 
-  // VIEW: function to view new employees displays data in all tables as a join
+  // VIEW: function to view new employee displays data employee table
   function viewEmployee() {
-  connection.query("SELECT * FROM employee", function(res, err) {
+  connection.query("SELECT * FROM employee", function(err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
-    console.log(res);
+    console.table(res);
     start();
   });
 }
 
 //ADD:  function to add new rows to the employee table
-function addEmployee () {
+function addEmployee() {
 // prompt for info about the item being put up for auction
     inquirer
       .prompt([
@@ -101,11 +97,11 @@ function addEmployee () {
           {
             name: "manager",
             type: "input",
-            message: "enter employee's manager's name"
+            message: "enter manager for current employee entry"
           }
       ])
       .then(function(answer) {
-        // answers from prompts are used to update tables in the datbase
+        // answers from prompts are used to update tables in the database
         connection.query(
           "INSERT INTO employee SET ?",
           {
@@ -118,8 +114,8 @@ function addEmployee () {
           },
           function(err) {
             if (err) throw err;
-            console.log("Your auction was created successfully!");
-            // re-prompt the user for if they want to bid or post
+            console.table("Your new employee record was created successfully!");
+            // re-prompt the user for next activities
             start();
           }
         );
