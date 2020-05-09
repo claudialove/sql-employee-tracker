@@ -26,8 +26,7 @@ console.log("  EMPLOYEE TRACKER SYSTEM  ");
 console.log("===========================");
 
   function start() {
-    inquirer
-      .prompt({
+    inquirer.prompt({
         name: "activities",
         type: "list",
         message: "What would you like to do next?",
@@ -36,19 +35,22 @@ console.log("===========================");
       .then(function(answer) {
         // based on their answer, call one of 3 functions (add employee, view employee, delete employee)
         if (answer.activities === "VIEW") {
+            console.log("ok, let's view the employee table");
           viewEmployee();
         }
-        else if(answer.activties === "ADD") {
+        else if(answer.activities === "ADD") {
+            console.log("ok, let's add a new employee");
           addEmployee();
         }
         else if(answer.activities === "DELETE") {
-          deleteEmployee();
+            console.log("ok, let's delete a row from out table... note the index for the row you would like to delete");
+            deleteEmployee();
          } else {
           connection.end();
         }
       });
-  }
-
+    }
+  
   // VIEW: function to view new employee displays data employee table
   function viewEmployee() {
   connection.query("SELECT * FROM employee", function(err, res) {
@@ -60,68 +62,75 @@ console.log("===========================");
 }
 
 //ADD:  function to add new rows to the employee table
-function addEmployee() {
 // prompt for info about the item being put up for auction
-    inquirer
-      .prompt([
+function addEmployee() {
+    inquirer.prompt([
         {
-          name: "first_name",
-          type: "input",
+            type: "input",
+            name: "first_name",
           message: "enter employee's first name?"
         },
         {
-            name: "last_name",
             type: "input",
+            name: "last_name",
             message: "enter employee's last name?"
           },
           {
-            name: "title",
             type: "input",
-            message: "enter employee's job title"
-          },
-          {
             name: "department",
-            type: "checkbox",
-            message: "select department: "
-            [
-              "engineering", 
-              "sales", 
-              "finance"
-            ]
+            message: "enter department "
           },
           {
-            name: "salary",
             type: "input",
+            name: "title",
+            message: "select job title"
+          },
+          {
+            type: "input",
+            name: "salary",
             message: "enter employee's salary"
           },
           {
-            name: "manager",
             type: "input",
+            name: "manager",
             message: "enter manager for current employee entry"
           }
-      ])
-      .then(function(answer) {
+      ]) .then(response => {
         // answers from prompts are used to update tables in the database
-        connection.query(
+        const query = connection.query(
           "INSERT INTO employee SET ?",
           {
-            first_name: answer.first_name,
-            last_name: answer.last_name,
-            title: answer.title, 
-            department: answer.department,
-            salary: answer.salary,
-            manager: answer.manager
-          },
-          function(err) {
-            if (err) throw err;
-            console.table("Your new employee record was created successfully!");
-            // re-prompt the user for next activities
-            start();
-          }
+            first_name: response.first_name,
+            last_name: response.last_name,
+            title: response.title, 
+            department: response.department,
+            salary: response.salary,
+                manager: response.manager
+            },
+            function (err, res) {
+                if (err) throw err;
+                console.table("Your new employee record was created successfully!");
+                // re-prompt the user for next activities
+                start();
+            }
         );
       });
+}
+function deleteProduct() {
+    const res = connection.query(
+      "DELETE FROM employee WHERE ?",
+      {
+        index: res.index
+      },
+      function(err, res) {
+        if (err) throw err;
+        console.log(res.affectedRows + " products deleted!\n");
+        // Call readProducts AFTER the DELETE completes
+        start();
+      }
+    );
   }
-
-
-
     
+
+
+
