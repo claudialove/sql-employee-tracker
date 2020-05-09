@@ -24,3 +24,21 @@ CREATE TABLE employee(
   role_id INT,
   manager_id INT
 );
+
+insert into department (department_name)
+values 
+("engineering"),
+("sales"),
+("human resources");
+
+insert into role (title, salary, department_id)
+values 
+("developer", "150000.00", "1"),
+("intern", "75000.00", "1"),
+("tech lead", "200000.00", "1"),
+("sales engineer", "150000.00", "2"),
+("sales intern", "75000.00", "2"),
+("sales lead", "250000.00", "2"),
+("hr specialist ", "150000.00", "3"),
+("hr generalist", "100000.00", "3"),
+("hr manager", "200000.00", "3");
